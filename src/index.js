@@ -1,36 +1,51 @@
-import React from 'react';
+import React, {useState} from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 // import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 
-class Counter extends React.Component{
-  state = {
-    counter: 0
+function Converter(){
+  const [km, setKm] = useState(0);
+
+  function handleChange(e){
+    setKm(e.target.value);
   }
-  increment = () =>{
-    this.setState({counter: this.state.counter+1});
+  function convert(km){
+    return (km/1.609).toFixed(2);
   }
-  componentDidMount(){
-    this.setState({counter: 42});
-  }
-  componentDidUpdate(){
-    alert("Number of clicks:" + this.state.counter)
-  }
-  render(){
-    return <div>
-      <p>{this.state.counter}</p>
-      <button onClick={this.increment}>Increment</button>
-    </div>
-  }
+  return <div>
+    <input type="text" value={km}
+      onChange={handleChange}/>
+      <p>{km} km is {convert(km)} miles</p>
+  </div>;
 }
  
-const el = <Counter/>; 
+const el = <Converter/>; 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   el
 );
+function AddForm(){
+  const [sum, setSum] = useState(0);
+  const [num, setNum] = useState(0);
+
+  function handleChange(e){
+    setNum(e.target.value);
+  }
+  function handleSubmit(e){
+    setSum(sum + Number(num));
+    e.preventDefault();
+  }
+  return <form onSubmit={handleSubmit}>
+    <input type="text" onChange={handleChange}  value={num}/>
+    <input type="submit" value="Add" />
+    <p>Sum is {sum}</p>
+  </form>
+}
+const el2 = <AddForm/>
+const root2 = ReactDOM.createRoot(document.getElementById('root2'));
+root2.render(el2);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
