@@ -1,5 +1,5 @@
-# Event Handling
+# Rendering A list
 
-Handling events in React is very similar to handling events in the DOM.
-
-The only difference is that event names use camelCase syntax and the event handler needs to be passed in curly braces.
+We take the input array from the incoming props, loop through the array using the JavaScript map function and return a ```<li>```element for each item.
+The resulted array is stored in the listItems variable.
+Then, the component returns the listItems array inside a ```<ul>```tag.
