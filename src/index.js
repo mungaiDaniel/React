@@ -5,15 +5,45 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 
 
-function MyList(props){
-  const arr = props.data;
-  const ListItems = arr.map((val) =>
-    <li>{val}</li>);
-  return <ul>{ListItems}</ul>
+function AddPersonForm(props){
+  const [person, setPerson] = useState("");
+  function handleChange(e){
+    setPerson(e.target.value);
+  }
+  function handleSubmit(e){
+    if (person !== ''){
+      props.handleSubmit(person);
+      setPerson('');
+    }
+    e.preventDefault();
+  }
+  return <form onSubmit={handleSubmit}>
+    <input type="text" value={person} placeholder="Add New Contact" onChange={handleChange} />
+    <button type='submit'>Add</button>
+  </form>
 }
-const arr = ["A", "B", "c"];
- 
-const el = <MyList data={arr}/>; 
+function PeopleList(props) {
+  const arr = props.data;
+  const listItems = arr.map((val, index) =>
+    <li key={index}>{val}</li>
+  );
+  return <ul>{listItems}</ul>;
+}
+function ContactManager(props){
+  const [contacts, setContacts] = useState(props.data);
+  function addPerson(name){
+    setContacts([...contacts, name]);
+  }
+  return (
+    <div>
+      <AddPersonForm handleSubmit={addPerson}/>
+      <PeopleList data={contacts} />
+    </div>
+  );
+}
+const contacts = ['james smith', 'thomas andrreson', 'bruce wayne']
+
+const el = <ContactManager data={contacts}/>
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   el
